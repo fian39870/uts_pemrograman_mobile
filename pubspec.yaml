@@ -70,7 +70,9 @@ flutter:
     - assets/icons/iconMenuList.png
     - assets/icons/iconMenuUser.png
     - assets/icons/iconAdd.png
+    - assets/icons/Ava.png
     - assets/images/imgDogCard.png
+    - assets/images/imgFlowers1.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
