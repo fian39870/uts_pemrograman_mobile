@@ -63,6 +63,13 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/icons/icon.png
+    - assets/icons/Icon_Chat.png
+    - assets/icons/Icon_Moving.png
+    - assets/icons/iconMenuChat.png
+    - assets/icons/iconMenuHeart.png
+    - assets/icons/iconMenuList.png
+    - assets/icons/iconMenuUser.png
+    - assets/icons/iconAdd.png
     - assets/images/imgDogCard.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
