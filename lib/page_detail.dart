@@ -18,7 +18,7 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
-    var tinggiGambarLatarBelakang = screenHeight * 2 / 3.5;
+    var tinggiGambarLatarBelakang = screenHeight * 2 / 3.6;
 
     return Scaffold(
       body: Column(
@@ -34,6 +34,24 @@ class DetailPage extends StatelessWidget {
                       image: AssetImage('assets/images/imgFlowers1.png'),
                       fit: BoxFit.cover,
                     ),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(23),
+                      bottomRight: Radius.circular(23),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 40,
+                  right: 30,
+                  child: Image.asset(
+                    'assets/icons/iconShare.png',
+                  ),
+                ),
+                Positioned(
+                  top: 40,
+                  left: 30,
+                  child: Image.asset(
+                    'assets/icons/iconBack.png',
                   ),
                 ),
                 Positioned(
@@ -52,17 +70,30 @@ class DetailPage extends StatelessWidget {
                           CircleAvatar(
                             backgroundImage: AssetImage('assets/icons/Ava.png'),
                           ),
-                          SizedBox(width: 17),
+                          SizedBox(width: 13),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(
-                                'KRISH',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Montserrat',
-                                ),
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                    'KRISH',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Montserrat',
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      width:
+                                          4), // Tambahkan sedikit ruang antara teks dan ikon
+                                  Icon(
+                                    Icons
+                                        .verified_rounded, // Ikon centang hijau
+                                    color: Colors.green,
+                                    size: 20,
+                                  ),
+                                ],
                               ),
                               Row(
                                 children: <Widget>[
@@ -80,6 +111,7 @@ class DetailPage extends StatelessWidget {
                               ),
                             ],
                           ),
+// ... Widget lainnya ...
                         ],
                       ),
                     ),
@@ -87,13 +119,12 @@ class DetailPage extends StatelessWidget {
                 ),
                 // Teks "Until 26.09"
                 Positioned(
-                  bottom: 30,
+                  bottom: 38,
                   right: 20,
                   child: Text(
                     'Until 26.09',
                     style: TextStyle(
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
                       fontSize: 16,
                       fontFamily: 'Montserrat',
                     ),
@@ -103,6 +134,9 @@ class DetailPage extends StatelessWidget {
             ),
           ),
           TitleWidget(),
+          SizedBox(
+            height: 5,
+          ),
           BottomButtonsWidget(),
         ],
       ),
@@ -132,10 +166,11 @@ class TitleWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              Icon(
-                Icons.favorite,
-                color: Colors.red,
-                size: 24.0,
+              Image.asset(
+                'assets/icons/iconMenuHeart.png',
+                color: Colors.black,
+                width: 40,
+                height: 40,
               ),
             ],
           ),
@@ -148,12 +183,13 @@ class TitleWidget extends StatelessWidget {
               fontFamily: 'Montserrat',
             ),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: 12),
           Text(
             'Leaving for a week, French Bulldog Wilfred needs help feeding twice a day and walk from 26 to 30 September. I bought food, it will be easy.',
             style: TextStyle(
               color: Colors.grey[600],
-              fontSize: 16.0,
+              fontSize: 17.0,
+              fontWeight: FontWeight.bold,
               fontFamily: 'Montserrat',
             ),
           ),
@@ -161,16 +197,16 @@ class TitleWidget extends StatelessWidget {
           Row(
             children: <Widget>[
               Icon(
-                Icons.wallet_giftcard, // Ikon dompet
+                Icons.wallet,
                 color: Colors.black,
                 size: 24.0,
               ),
-              SizedBox(width: 8), // Tambahkan ruang antara ikon dan teks
+              SizedBox(width: 8),
               Text(
                 "Reward 34",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 20.0,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Montserrat',
                 ),
@@ -186,16 +222,35 @@ class TitleWidget extends StatelessWidget {
                 size: 24.0,
               ),
               SizedBox(width: 8),
-              Text(
-                '3 HERALD 400m from you',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16.0,
-                  fontFamily: 'Montserrat',
+              RichText(
+                text: TextSpan(
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontFamily: 'Montserrat',
+                    color: Colors.black,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: '3 HERALD ',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' ', // Spasi antara '3 HERALD' dan '400m from you'
+                    ),
+                    TextSpan(
+                      text: '400m from you',
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
-          ),
+          )
         ],
       ),
     );
@@ -210,24 +265,41 @@ class BottomButtonsWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          TextButton(
-            onPressed: () {},
-            style: TextButton.styleFrom(
-              primary: Colors.white,
-              backgroundColor: Color.fromRGBO(165, 142, 255, 1),
-              shape: CircleBorder(),
-            ),
-            child: Icon(Icons.chat),
-          ),
-          SizedBox(width: 16),
-          Expanded(
+          Material(
+            elevation: 4.0,
+            borderRadius: BorderRadius.circular(10.0),
             child: TextButton(
               onPressed: () {},
               style: TextButton.styleFrom(
-                primary: Colors.white,
-                backgroundColor: Color.fromRGBO(165, 142, 255, 1),
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                minimumSize: Size(50, 50),
               ),
-              child: Text('Response'),
+              child: Image.asset(
+                'assets/icons/iconMenuChat.png',
+              ),
+            ),
+          ),
+          SizedBox(width: 16),
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromRGBO(165, 142, 255, 1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text('Respond',
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.bold)),
+              ),
             ),
           ),
         ],

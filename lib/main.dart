@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
             SizedBox(height: 5),
             HeadingWidget(),
             Container(
-              height: 450,
+              height: 410,
               child: HorizontalCardList(),
             ),
             Categories(),
@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
               margin: EdgeInsets.all(10.0),
               child: SmallTaskCard(),
             ),
+            SizedBox(height: 50),
             BottomTabBar(),
           ],
         ),
@@ -149,7 +150,7 @@ class HorizontalCardList extends StatelessWidget {
           title: 'Go for a walk and feed the dog',
         ),
         HorizontalCard(
-          image: 'assets/images/imgDogCard.png',
+          image: 'assets/images/imgkaktus.png',
           title: 'Water the flowers once a week',
         ),
       ],
@@ -167,7 +168,7 @@ class HorizontalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width / 1.3,
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+      margin: EdgeInsets.symmetric(horizontal: 6, vertical: 30),
       child: Card(
         elevation: 1,
         shape: RoundedRectangleBorder(
@@ -178,12 +179,81 @@ class HorizontalCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ClipRRect(
-                child: Image.asset(
-                  image,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                ),
+              Stack(
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                        30.0), // Sesuaikan dengan bentuk Card
+                    child: Image.asset(
+                      image,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: 230, // Tentukan tinggi yang diinginkan
+                    ),
+                  ),
+                  Positioned(
+                    top: 22,
+                    right: 25,
+                    child: Image.asset(
+                      'assets/icons/love.png',
+                      color: Colors.white, // Ganti dengan asset yang sesuai
+                    ),
+                  ),
+                  Positioned(
+                      top: 20,
+                      left: 20,
+                      child: Text('Until 26.09',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontFamily: 'Montserrat',
+                          ))),
+                  Positioned(
+                    bottom: 9,
+                    left: 9,
+                    child: Container(
+                      width:
+                          150, // Perluas lebar Card untuk menampung teks dan ikon
+                      height: 50,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        color: Colors.white.withOpacity(0.4),
+                        child: Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('assets/icons/Ava.png'),
+                              ),
+                              SizedBox(
+                                  width: 8), // Sesuaikan jarak sesuai kebutuhan
+                              Text(
+                                'KRISH',
+                                style: TextStyle(
+                                  color: Colors
+                                      .white, // Atur warna teks sesuai tema
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                  width: 8), // Sesuaikan jarak sesuai kebutuhan
+                              Icon(
+                                Icons.verified, // Ikon terverifikasi
+                                color:
+                                    Colors.green, // Atur warna ikon sesuai tema
+                                size: 24, // Atur ukuran ikon sesuai kebutuhan
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: 20.0),
               Row(
