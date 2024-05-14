@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'page_detail.dart';
 
 void main() {
   runApp(MyApp());
@@ -166,117 +167,122 @@ class HorizontalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 1.3,
-      margin: EdgeInsets.symmetric(horizontal: 6, vertical: 30),
-      child: Card(
-        elevation: 1,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                        30.0), // Sesuaikan dengan bentuk Card
-                    child: Image.asset(
-                      image,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: 230, // Tentukan tinggi yang diinginkan
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DetailPage()),
+        );
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width / 1.3,
+        margin: EdgeInsets.symmetric(horizontal: 6, vertical: 30),
+        child: Card(
+          elevation: 1,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Stack(
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(30.0),
+                      child: Image.asset(
+                        image,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: 230,
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    top: 22,
-                    right: 25,
-                    child: Image.asset(
-                      'assets/icons/love.png',
-                      color: Colors.white, // Ganti dengan asset yang sesuai
+                    Positioned(
+                      top: 22,
+                      right: 25,
+                      child: Image.asset(
+                        'assets/icons/love.png',
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  Positioned(
+                    Positioned(
                       top: 20,
                       left: 20,
-                      child: Text('Until 26.09',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 17,
-                            fontFamily: 'Montserrat',
-                          ))),
-                  Positioned(
-                    bottom: 9,
-                    left: 9,
-                    child: Container(
-                      width:
-                          150, // Perluas lebar Card untuk menampung teks dan ikon
-                      height: 50,
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                      child: Text(
+                        'Until 26.09',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontFamily: 'Montserrat',
                         ),
-                        color: Colors.white.withOpacity(0.4),
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              CircleAvatar(
-                                backgroundImage:
-                                    AssetImage('assets/icons/Ava.png'),
-                              ),
-                              SizedBox(
-                                  width: 8), // Sesuaikan jarak sesuai kebutuhan
-                              Text(
-                                'KRISH',
-                                style: TextStyle(
-                                  color: Colors
-                                      .white, // Atur warna teks sesuai tema
-                                  fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 9,
+                      left: 9,
+                      child: Container(
+                        width: 150,
+                        height: 50,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          color: Colors.white.withOpacity(0.4),
+                          child: Padding(
+                            padding: const EdgeInsets.all(6.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage('assets/icons/Ava.png'),
                                 ),
-                              ),
-                              SizedBox(
-                                  width: 8), // Sesuaikan jarak sesuai kebutuhan
-                              Icon(
-                                Icons.verified, // Ikon terverifikasi
-                                color:
-                                    Colors.green, // Atur warna ikon sesuai tema
-                                size: 24, // Atur ukuran ikon sesuai kebutuhan
-                              ),
-                            ],
+                                SizedBox(width: 8),
+                                Text(
+                                  'KRISH',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                Icon(
+                                  Icons.verified,
+                                  color: Colors.green,
+                                  size: 24,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.0),
-              Row(
-                children: <Widget>[
-                  Flexible(
-                    child: Text(
-                      title,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
+                  ],
+                ),
+                SizedBox(height: 20.0),
+                Row(
+                  children: <Widget>[
+                    Flexible(
+                      child: Text(
+                        title,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(width: 63.0),
-                  Image.asset(
-                    'assets/icons/Icon_Chat.png',
-                  ),
-                ],
-              ),
-            ],
+                    SizedBox(width: 63.0),
+                    Image.asset(
+                      'assets/icons/Icon_Chat.png',
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

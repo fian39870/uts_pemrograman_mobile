@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'main.dart';
 
 void main() {
   runApp(MyApp());
@@ -48,10 +49,13 @@ class DetailPage extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: 40,
-                  left: 30,
-                  child: Image.asset(
-                    'assets/icons/iconBack.png',
+                  top: 29,
+                  left: 18,
+                  child: IconButton(
+                    icon: Image.asset('assets/icons/iconBack.png'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
                   ),
                 ),
                 Positioned(
@@ -84,12 +88,9 @@ class DetailPage extends StatelessWidget {
                                       fontFamily: 'Montserrat',
                                     ),
                                   ),
-                                  SizedBox(
-                                      width:
-                                          4), // Tambahkan sedikit ruang antara teks dan ikon
+                                  SizedBox(width: 4),
                                   Icon(
-                                    Icons
-                                        .verified_rounded, // Ikon centang hijau
+                                    Icons.verified_rounded,
                                     color: Colors.green,
                                     size: 20,
                                   ),
@@ -111,13 +112,11 @@ class DetailPage extends StatelessWidget {
                               ),
                             ],
                           ),
-// ... Widget lainnya ...
                         ],
                       ),
                     ),
                   ),
                 ),
-                // Teks "Until 26.09"
                 Positioned(
                   bottom: 38,
                   right: 20,
@@ -238,7 +237,7 @@ class TitleWidget extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: ' ', // Spasi antara '3 HERALD' dan '400m from you'
+                      text: ' ',
                     ),
                     TextSpan(
                       text: '400m from you',
@@ -266,7 +265,7 @@ class BottomButtonsWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Material(
-            elevation: 4.0,
+            elevation: 1,
             borderRadius: BorderRadius.circular(10.0),
             child: TextButton(
               onPressed: () {},
