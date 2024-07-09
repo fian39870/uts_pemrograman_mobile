@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
+import '/api/api_service.dart';
+import '/model/task_model.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,135 +16,170 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
+  @override
+  _DetailPageState createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  late Future<List<Task>> futureTasks;
+
+  @override
+  void initState() {
+    super.initState();
+    futureTasks = ApiService().fetchTasks();
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
     var tinggiGambarLatarBelakang = screenHeight * 2 / 3.6;
 
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Container(
-            child: Stack(
+      body: FutureBuilder<List<Task>>(
+        future: futureTasks,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No tasks available'));
+          } else {
+            // Use the first task for demonstration
+            Task task = snapshot.data!.first;
+
+            return Column(
               children: <Widget>[
                 Container(
-                  height: tinggiGambarLatarBelakang,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/imgFlowers1.png'),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(23),
-                      bottomRight: Radius.circular(23),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 40,
-                  right: 30,
-                  child: Image.asset(
-                    'assets/icons/iconShare.png',
-                  ),
-                ),
-                Positioned(
-                  top: 29,
-                  left: 18,
-                  child: IconButton(
-                    icon: Image.asset('assets/icons/iconBack.png'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ),
-                Positioned(
-                  bottom: 18,
-                  left: 17,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                    color: Colors.white.withOpacity(0.4),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          CircleAvatar(
-                            backgroundImage: AssetImage('assets/icons/Ava.png'),
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        height: tinggiGambarLatarBelakang,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/imgFlowers1.png'),
+                            fit: BoxFit.cover,
                           ),
-                          SizedBox(width: 13),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Text(
-                                    'KRISH',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Montserrat',
-                                    ),
-                                  ),
-                                  SizedBox(width: 4),
-                                  Icon(
-                                    Icons.verified_rounded,
-                                    color: Colors.green,
-                                    size: 20,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Icon(Icons.star,
-                                      color: Colors.white, size: 20),
-                                  Text(
-                                    ' 4.9',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Montserrat',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(23),
+                            bottomRight: Radius.circular(23),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                      Positioned(
+                        top: 40,
+                        right: 30,
+                        child: Image.asset(
+                          'assets/icons/iconShare.png',
+                        ),
+                      ),
+                      Positioned(
+                        top: 29,
+                        left: 18,
+                        child: IconButton(
+                          icon: Image.asset('assets/icons/iconBack.png'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 18,
+                        left: 17,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          color: Colors.white.withOpacity(0.4),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage('assets/icons/Ava.png'),
+                                ),
+                                SizedBox(width: 13),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          task.assignedTo
+                                              .username, // Ganti dengan properti yang sesuai dari User
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Montserrat',
+                                          ),
+                                        ),
+                                        SizedBox(width: 4),
+                                        Icon(
+                                          Icons.verified_rounded,
+                                          color: Colors.green,
+                                          size: 20,
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Icon(Icons.star,
+                                            color: Colors.white, size: 20),
+                                        Text(
+                                          ' 4.9',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Montserrat',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 38,
+                        right: 20,
+                        child: Text(
+                          task.date,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontFamily: 'Montserrat',
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Positioned(
-                  bottom: 38,
-                  right: 20,
-                  child: Text(
-                    'Until 26.09',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontFamily: 'Montserrat',
-                    ),
-                  ),
+                TitleWidget(task: task),
+                SizedBox(
+                  height: 5,
                 ),
+                BottomButtonsWidget(),
               ],
-            ),
-          ),
-          TitleWidget(),
-          SizedBox(
-            height: 5,
-          ),
-          BottomButtonsWidget(),
-        ],
+            );
+          }
+        },
       ),
     );
   }
 }
 
 class TitleWidget extends StatelessWidget {
+  final Task task;
+
+  TitleWidget({required this.task});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -156,7 +192,7 @@ class TitleWidget extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: Text(
-                  'Go for a walk',
+                  task.title,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 24.0,
@@ -173,18 +209,9 @@ class TitleWidget extends StatelessWidget {
               ),
             ],
           ),
-          Text(
-            'and feed the dog',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Montserrat',
-            ),
-          ),
           SizedBox(height: 12),
           Text(
-            'Leaving for a week, French Bulldog Wilfred needs help feeding twice a day and walk from 26 to 30 September. I bought food, it will be easy.',
+            task.description,
             style: TextStyle(
               color: Colors.grey[600],
               fontSize: 17.0,
@@ -202,7 +229,7 @@ class TitleWidget extends StatelessWidget {
               ),
               SizedBox(width: 8),
               Text(
-                "Reward 34",
+                "Reward ${task.reward}",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 16.0,
@@ -230,7 +257,7 @@ class TitleWidget extends StatelessWidget {
                   ),
                   children: <TextSpan>[
                     TextSpan(
-                      text: '3 HERALD ',
+                      text: task.location,
                       style: TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,
@@ -238,12 +265,6 @@ class TitleWidget extends StatelessWidget {
                     ),
                     TextSpan(
                       text: ' ',
-                    ),
-                    TextSpan(
-                      text: '400m from you',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                      ),
                     ),
                   ],
                 ),
