@@ -7,6 +7,7 @@ class Task {
   final double reward;
   final String status;
   final String title;
+  final String image;
 
   Task({
     required this.id,
@@ -17,6 +18,7 @@ class Task {
     required this.reward,
     required this.status,
     required this.title,
+    required this.image,
   });
 
   factory Task.fromJson(Map<String, dynamic> json) {
@@ -31,6 +33,7 @@ class Task {
           .toDouble(), // Assuming reward is received as a numeric value
       status: json['status'],
       title: json['title'],
+      image: json['image'],
     );
   }
 
@@ -44,6 +47,7 @@ class Task {
       'reward': reward,
       'status': status,
       'title': title,
+      'image': image,
     };
   }
 }

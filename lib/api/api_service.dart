@@ -4,7 +4,7 @@ import '../model/task_model.dart';
 
 class ApiService {
   static const String apiUrl =
-      'http://192.168.238.58:5000/tasks'; // Sesuaikan dengan alamat API Anda
+      'http://10.100.29.47:5000/tasks'; // Sesuaikan dengan alamat API Anda
 
   Future<List<Task>> fetchTasks() async {
     final response = await http.get(Uri.parse(apiUrl));

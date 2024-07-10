@@ -100,7 +100,7 @@ class _DetailPageState extends State<DetailPage> {
                               children: <Widget>[
                                 CircleAvatar(
                                   backgroundImage:
-                                      AssetImage('assets/icons/Ava.png'),
+                                      NetworkImage(task.assignedTo.picture),
                                 ),
                                 SizedBox(width: 13),
                                 Column(
@@ -130,7 +130,7 @@ class _DetailPageState extends State<DetailPage> {
                                         Icon(Icons.star,
                                             color: Colors.white, size: 20),
                                         Text(
-                                          ' 4.9',
+                                          ' ${task.assignedTo.rating}',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,

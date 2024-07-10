@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'page_detail.dart';
+import '/api/api_service.dart';
+import '/model/task_model.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,40 +12,80 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SearchFilterWidget(),
-            SizedBox(height: 5),
-            HeadingWidget(),
-            Container(
-              height: 410,
-              child: HorizontalCardList(),
-            ),
-            Categories(),
-            Container(
-              margin: EdgeInsets.all(10.0),
-              child: SmallTaskCard(),
-            ),
-            SizedBox(height: 50),
-            BottomTabBar(),
-          ],
-        ),
-        floatingActionButton: Ink(
-          decoration: BoxDecoration(
-            color: Color.fromRGBO(165, 142, 255, 1),
-            shape: BoxShape.circle,
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final ApiService apiService = ApiService();
+
+  Future<List<Task>> futureTasks = ApiService().fetchTasks();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SearchFilterWidget(), // Widget for search and filter
+              SizedBox(height: 5),
+              HeadingWidget(), // Widget for heading "Next to You"
+              FutureBuilder<List<Task>>(
+                future: futureTasks,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(child: Text('No tasks available'));
+                  } else {
+                    return Container(
+                      height: 410,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          Task task = snapshot.data![index];
+                          return HorizontalCard(task: task);
+                        },
+                      ),
+                    );
+                  }
+                },
+              ),
+              Categories(), // Widget for categories
+              Container(
+                margin: EdgeInsets.all(10.0),
+                child: SmallTaskCard(), // Widget for small task card
+              ),
+              SizedBox(height: 50),
+              BottomTabBar(), // Bottom navigation tabs
+            ],
           ),
-          child: FloatingActionButton(
-            onPressed: () {},
-            child: Icon(Icons.add),
-            elevation: 2,
-            backgroundColor: Colors.transparent,
-          ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
+      floatingActionButton: Ink(
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(165, 142, 255, 1),
+          shape: BoxShape.circle,
+        ),
+        child: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(Icons.add),
+          elevation: 2,
+          backgroundColor: Colors.transparent,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
@@ -140,30 +182,10 @@ class HeadingWidget extends StatelessWidget {
   }
 }
 
-class HorizontalCardList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.horizontal,
-      children: <Widget>[
-        HorizontalCard(
-          image: 'assets/images/imgDogCard.png',
-          title: 'Go for a walk and feed the dog',
-        ),
-        HorizontalCard(
-          image: 'assets/images/imgkaktus.png',
-          title: 'Water the flowers once a week',
-        ),
-      ],
-    );
-  }
-}
-
 class HorizontalCard extends StatelessWidget {
-  final String image;
-  final String title;
+  final Task task;
 
-  HorizontalCard({required this.image, required this.title});
+  HorizontalCard({required this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +197,7 @@ class HorizontalCard extends StatelessWidget {
         );
       },
       child: Container(
-        width: MediaQuery.of(context).size.width / 1.3,
+        width: MediaQuery.of(context).size.width / 1.2, // Adjusted width
         margin: EdgeInsets.symmetric(horizontal: 6, vertical: 30),
         child: Card(
           elevation: 1,
@@ -191,8 +213,8 @@ class HorizontalCard extends StatelessWidget {
                   children: <Widget>[
                     ClipRRect(
                       borderRadius: BorderRadius.circular(30.0),
-                      child: Image.asset(
-                        image,
+                      child: Image.network(
+                        task.image,
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: 230,
@@ -210,7 +232,7 @@ class HorizontalCard extends StatelessWidget {
                       top: 20,
                       left: 20,
                       child: Text(
-                        'Until 26.09',
+                        task.date,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 17,
@@ -239,11 +261,14 @@ class HorizontalCard extends StatelessWidget {
                                       AssetImage('assets/icons/Ava.png'),
                                 ),
                                 SizedBox(width: 8),
-                                Text(
-                                  'KRISH',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                                Flexible(
+                                  // Wrap username in Flexible to handle overflow
+                                  child: Text(
+                                    task.assignedTo.username,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                                 SizedBox(width: 8),
@@ -265,7 +290,7 @@ class HorizontalCard extends StatelessWidget {
                   children: <Widget>[
                     Flexible(
                       child: Text(
-                        title,
+                        task.title,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: TextStyle(
@@ -275,7 +300,7 @@ class HorizontalCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 63.0),
+                    SizedBox(width: 16.0), // Adjusted width between elements
                     Image.asset(
                       'assets/icons/Icon_Chat.png',
                     ),
