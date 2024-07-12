@@ -193,7 +193,7 @@ class HorizontalCard extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => DetailPage()),
+          MaterialPageRoute(builder: (context) => DetailPage(task: task)),
         );
       },
       child: Container(

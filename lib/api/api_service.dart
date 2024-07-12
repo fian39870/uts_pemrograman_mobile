@@ -3,8 +3,7 @@ import 'package:http/http.dart' as http;
 import '../model/task_model.dart';
 
 class ApiService {
-  static const String apiUrl =
-      'http://10.100.29.47:5000/tasks'; // Sesuaikan dengan alamat API Anda
+  static const String apiUrl = 'http://10.100.29.47:5000/tasks';
 
   Future<List<Task>> fetchTasks() async {
     final response = await http.get(Uri.parse(apiUrl));
