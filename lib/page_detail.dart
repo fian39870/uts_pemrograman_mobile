@@ -23,7 +23,7 @@ class DetailPage extends StatelessWidget {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/images/imgFlowers1.png'),
+                      image: NetworkImage(task.image_detail),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.only(

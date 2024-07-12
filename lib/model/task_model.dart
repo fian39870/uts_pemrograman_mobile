@@ -8,6 +8,7 @@ class Task {
   final String status;
   final String title;
   final String image;
+  final String image_detail;
 
   Task({
     required this.id,
@@ -19,6 +20,7 @@ class Task {
     required this.status,
     required this.title,
     required this.image,
+    required this.image_detail,
   });
 
   factory Task.fromJson(Map<String, dynamic> json) {
@@ -34,6 +36,7 @@ class Task {
       status: json['status'],
       title: json['title'],
       image: json['image'],
+      image_detail: json['image_detail'],
     );
   }
 
@@ -48,6 +51,7 @@ class Task {
       'status': status,
       'title': title,
       'image': image,
+      'image_detail': image_detail,
     };
   }
 }
